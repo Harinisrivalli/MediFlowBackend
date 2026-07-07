@@ -1,0 +1,15 @@
+@MediFlow_HostAddress = https://localhost:7286
+
+GET {{MediFlow_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{MediFlow_HostAddress}}/api/patient
+Content-Type: application/json
+
+{
+  //CreatePatientDTO
+}
+
+###
