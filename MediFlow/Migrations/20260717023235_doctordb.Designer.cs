@@ -4,6 +4,7 @@ using MediFlow;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediFlow.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260717023235_doctordb")]
+    partial class doctordb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,29 +91,24 @@ namespace MediFlow.Migrations
 
             modelBuilder.Entity("MediFlow.Models.AvailabilitySlot", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CreateDoctorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("day")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CreateDoctorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("endTime")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("startTime")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("day");
 
                     b.HasIndex("CreateDoctorId");
 
@@ -129,11 +127,12 @@ namespace MediFlow.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("city")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("consultationFee")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("createdAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("dob")
                         .IsRequired()
@@ -172,6 +171,10 @@ namespace MediFlow.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("pincode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("profilePhoto")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -184,12 +187,13 @@ namespace MediFlow.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("status")
+                    b.Property<string>("state")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("updatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -198,13 +202,9 @@ namespace MediFlow.Migrations
 
             modelBuilder.Entity("MediFlow.Models.AvailabilitySlot", b =>
                 {
-                    b.HasOne("MediFlow.Models.CreateDoctor", "createDoctor")
+                    b.HasOne("MediFlow.Models.CreateDoctor", null)
                         .WithMany("availabilitySlot")
-                        .HasForeignKey("CreateDoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("createDoctor");
+                        .HasForeignKey("CreateDoctorId");
                 });
 
             modelBuilder.Entity("MediFlow.Models.CreateDoctor", b =>

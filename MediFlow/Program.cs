@@ -22,6 +22,8 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod().
         AllowAnyHeader()
     ));
+builder.Services.AddScoped<DoctorService>();
+builder.Services.AddScoped<DoctorRepo>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
