@@ -47,7 +47,7 @@ namespace MediFlow.DTO
 
     public class PatientDTOResponse
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string fullName { get; set; }
         public int age { get; set; }
         public string email { get; set; }

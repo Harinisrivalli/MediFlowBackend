@@ -7,7 +7,9 @@ namespace MediFlow
     public class AppDbContext : DbContext
     {
         public DbSet<PatientData> Patients { get; set; }
-        public DbSet<CreateDoctor> doctors { get; set; }
+        public DbSet<Doctor> doctors { get; set; }
+
+        public DbSet<Appointment> appointments { get; set; }   
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             

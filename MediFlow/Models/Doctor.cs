@@ -13,10 +13,10 @@ namespace MediFlow.Models
         public bool isAvailable { get; set; }
         public int CreateDoctorId { get; set; }
         [ForeignKey(nameof(CreateDoctorId))]
-        public CreateDoctor createDoctor { get; set; }
+        public Doctor doctor { get; set; }
     }
 
-    public class CreateDoctor
+    public class Doctor
     {
         [Key]
         public int Id { get; set; }

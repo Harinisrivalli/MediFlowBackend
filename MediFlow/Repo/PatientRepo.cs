@@ -66,5 +66,13 @@ namespace MediFlow.Repo
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<PatientData> GetPatient(int id)
+        {
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient == null)
+                return null;
+            return patient;
+        }
     }
 }
