@@ -56,5 +56,14 @@ namespace MediFlow.Controllers
             }
             return Ok(new {status = StatusCode(201), message = "Deleted Successfully"});
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPatientById([FromRoute]int id)
+        {
+            var patient = await _patientService.GetPatientById(id);
+            if (patient == null)
+                return NotFound();
+            return Ok(new {  status = StatusCode(200),data = patient });
+        }
     }
 }

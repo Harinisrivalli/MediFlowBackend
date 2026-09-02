@@ -24,7 +24,7 @@ namespace MediFlow.Service
             string fname = Path.Combine(uploadFolder, fileName);
             FileStream fs = new FileStream(fname, FileMode.Create);
             await dto.profilePhoto.CopyToAsync(fs);
-            CreateDoctor createdDoctor = new CreateDoctor
+            Doctor createdDoctor = new Doctor
             {
                 Id = dto.Id,
                 fullName = dto.fullName,
@@ -92,32 +92,32 @@ namespace MediFlow.Service
 
         public async Task<CreateDoctorDTOResp> GetDoctorById(int id)
         {
-            CreateDoctor createDoctor = await _repo.GetDoctor(id);
+            Doctor doctor = await _repo.GetDoctor(id);
 
-            if (createDoctor == null)
+            if (doctor == null)
                 return null;
 
             return new CreateDoctorDTOResp
             {
-                Id = createDoctor.Id,
-                fullName = createDoctor.fullName,
-                dob = createDoctor.dob,
-                isDeleted = createDoctor.isDeleted,
-                isActive = createDoctor.isActive,
-                consultationFee = createDoctor.consultationFee,
-                email = createDoctor.email,
-                password = createDoctor.password,
-                phoneNo = createDoctor.phoneNo,
-                gender = createDoctor.gender,
-                profilePhoto = createDoctor.profilePhoto,
-                specialization = createDoctor.specialization,
-                qualification = createDoctor.qualification,
-                licenseNo = createDoctor.licenseNo,
-                experience = createDoctor.experience,
-                about = createDoctor.about,
-                status = createDoctor.status,
+                Id = doctor.Id,
+                fullName = doctor.fullName,
+                dob = doctor.dob,
+                isDeleted = doctor.isDeleted,
+                isActive = doctor.isActive,
+                consultationFee = doctor.consultationFee,
+                email = doctor.email,
+                password = doctor.password,
+                phoneNo = doctor.phoneNo,
+                gender = doctor.gender,
+                profilePhoto = doctor.profilePhoto,
+                specialization = doctor.specialization,
+                qualification = doctor.qualification,
+                licenseNo = doctor.licenseNo,
+                experience = doctor.experience,
+                about = doctor.about,
+                status = doctor.status,
 
-                availabilitySlot = createDoctor.availabilitySlot.Select(obj => new DTO.AvailabilitySlot
+                availabilitySlot = doctor.availabilitySlot.Select(obj => new DTO.AvailabilitySlot
                 {
                     isAvailable = obj.isAvailable,
                     day = obj.day,
@@ -129,7 +129,7 @@ namespace MediFlow.Service
 
         public async Task<List<CreateDoctorDTOResp>> GetDoctor()
         {
-            List<CreateDoctor> data = await _repo.GetDoctors();
+            List<Doctor> data = await _repo.GetDoctors();
 
             if (data == null)
                 return null;

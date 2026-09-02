@@ -20,7 +20,7 @@ namespace MediFlow.Service
             {
                 List<PatientDTOResponse> patientsdto = patients.Select(obj => new PatientDTOResponse
                 {
-                    id = obj.Id,
+                    Id = obj.Id,
                     fullName = obj.FullName,
                     age = obj.Age,
                     email = obj.Email,
@@ -73,7 +73,7 @@ namespace MediFlow.Service
             {
                 return new PatientDTOResponse
                 {
-                    id = patientData.Id,
+                    Id = patientData.Id,
                     fullName = patientData.FullName,
                     age = patientData.Age,
                     email = patientData.Email,
@@ -123,6 +123,30 @@ namespace MediFlow.Service
         {
             return await _patientRepo.DeletePatient(id);
 
+        }
+
+        public async Task<PatientDTOResponse> GetPatientById(int id)
+        {
+            var patientData = await _patientRepo.GetPatient(id);
+            if (patientData == null)
+                return null;
+            return new PatientDTOResponse {
+                Id = patientData.Id,
+                fullName = patientData.FullName,
+                age = patientData.Age,
+                email = patientData.Email,
+                phoneNo = patientData.PhoneNo,
+                city = patientData.City,
+                state = patientData.State,
+                pincode = patientData.Pincode,
+                gender = patientData.Gender,
+                bloodGroup = patientData.BloodGroup,
+                profilePhoto = patientData.ProfilePhoto,
+                isActive = patientData.IsActive,
+                isDeleted = patientData.IsDeleted,
+                createdAt = patientData.CreatedAt,
+                updatedAt = patientData.UpdatedAt
+            };
         }
     }
 }

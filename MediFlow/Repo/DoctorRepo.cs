@@ -13,9 +13,9 @@ namespace MediFlow.Repo
             _context = context;
         }
 
-        public async Task<CreateDoctor> CreateDoctor(CreateDoctor createDoctor)
+        public async Task<Doctor> CreateDoctor(Doctor doctor)
         {
-            var status = await _context.doctors.AddAsync(createDoctor);
+            var status = await _context.doctors.AddAsync(doctor);
 
             if (status.State == EntityState.Added)
             {
@@ -26,12 +26,12 @@ namespace MediFlow.Repo
             return null;
         }
 
-        public async Task<CreateDoctor> GetDoctor(int id)
+        public async Task<Doctor> GetDoctor(int id)
         {
-            return await _context.doctors.FindAsync(id);
+            return await _context.doctors.Include(d => d.availabilitySlot).FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public async Task<List<CreateDoctor>> GetDoctors()
+        public async Task<List<Doctor>> GetDoctors()
         {
             return await _context.doctors.Include(d=> d.availabilitySlot).ToListAsync();
         }
@@ -89,7 +89,13 @@ namespace MediFlow.Repo
 
             doctor.isDeleted = true;
             doctor.isActive = false;
-
+            for(int i = 0;i< doctor.availabilitySlot.Count; i++)
+            {
+                doctor.availabilitySlot[i].isAvailable = false;
+                doctor.availabilitySlot[i].startTime = null;
+                doctor.availabilitySlot[i].endTime = null;
+            }
+            doctor.status = "Unavailable";
             var status = _context.doctors.Update(doctor);
 
             if (status.State == EntityState.Modified)

@@ -1,9 +1,8 @@
 using Scalar.AspNetCore;
-using Microsoft.AspNetCore;
-using MediFlow;
 using Microsoft.EntityFrameworkCore;
 using MediFlow.Service;
 using MediFlow.Repo;
+using MediFlow;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +23,8 @@ builder.Services.AddCors(options =>
     ));
 builder.Services.AddScoped<DoctorService>();
 builder.Services.AddScoped<DoctorRepo>();
+builder.Services.AddScoped<AppointmentService>();
+builder.Services.AddScoped<AppointmentRepo>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
