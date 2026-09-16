@@ -64,9 +64,12 @@ namespace MediFlow.Controllers
             [FromRoute] int id)
         {
             var resp = await _service.UpdateAppointment(appointment);
-
             if (resp == null)
                 return NotFound();
+            if (resp.Reason == "Cancelled Successfully")
+            {
+                return Ok(new { data = "Cancelled Successfully" });
+            }
 
             return Ok(new { data = resp });
         }
@@ -81,9 +84,9 @@ namespace MediFlow.Controllers
         }
 
         [HttpGet("patient/{id}")]
-        public async Task<IActionResult> GetPatientAppointments(int id)
+        public async Task<IActionResult> GetPatientAppointments(int id, DateTime date)
         {
-            var respone = await _service.GetPatientAppointments(id);
+            var respone = await _service.GetPatientAppointments(id, date);
             if (respone == null)
                 return NotFound(new { message = "No records" });
             return Ok(new { message = respone });
