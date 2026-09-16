@@ -42,14 +42,17 @@ namespace MediFlow.Repo
         public async Task<Models.Appointment> UpdateAppointment(
             Models.Appointment appointment)
         {
-            var data = await _context.appointments
-                .FindAsync(appointment.Id);
+            var data = await _context.appointments.FindAsync(appointment.Id);
 
             if (data != null)
             {
-                _context.Entry(data)
-                    .CurrentValues
-                    .SetValues(appointment);
+                if (appointment.Status == "3")
+                {
+                    var result = _context.appointments.Remove(data);
+                    appointment.Status = "Cancelled Successfully";
+                    return appointment;
+                }
+                _context.Entry(data).CurrentValues.SetValues(appointment);
 
                 int count = await _context.SaveChangesAsync();
 
@@ -81,15 +84,15 @@ namespace MediFlow.Repo
             return false;
         }
     
-        public async Task<Models.Appointment> GetDoctorAppointments(int id, DateTime date)
+        public async Task<List<Models.Appointment>> GetDoctorAppointments(int id, DateTime date)
         {
-            var status = await _context.appointments.Include(d => d.doctor).FirstOrDefaultAsync(obj => obj.DoctorId == id && obj.AppointmentDate.Date == date);
+            var status = await _context.appointments.Include(d => d.doctor).Where(obj => obj.DoctorId == id && obj.AppointmentDate.Date == date.Date).ToListAsync();
             return status;
         }
 
-        public async Task<Models.Appointment> GetPatientAppointments(int id)
+        public async Task<List<Models.Appointment>> GetPatientAppointments(int id, DateTime date)
         {
-            var status = await _context.appointments.Include(p => p.patient).FirstOrDefaultAsync(obj => obj.PatientId == id);
+            var status = await _context.appointments.Include(p => p.patient).Where(obj => obj.PatientId == id && obj.AppointmentDate.Date == date.Date).ToListAsync();
             return status;
         }
     }
